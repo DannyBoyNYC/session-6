@@ -1,8 +1,6 @@
-## ES6 Classes
+# Object Oriented JavaScript
 
-Let's take a closer look at ES6 classes.
-
-### Classic Prototypal inheritance
+## ES6 Classes and Classic Prototypal inheritance
 
 Lets use the contents of `other/_classes` for this.`
 
