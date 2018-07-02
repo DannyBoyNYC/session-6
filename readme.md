@@ -2,7 +2,9 @@
 
 ## ES6 Classes and Classic Prototypal inheritance
 
-Lets use the contents of `other/_classes` for this.`
+Refer to the contents of `other/_classes` for this part of the exercise.
+
+Open `index.html` in Chrome (no server needed).
 
 ```html
 <!DOCTYPE html>
@@ -13,11 +15,14 @@ Lets use the contents of `other/_classes` for this.`
 </head>
 <body>
 <script>
+
   function Car(model, make) {
     this.model = model;
     this.make = make;
   }
+
   const expo = new Car('Expo', 'Ford');
+
   console.log(expo);
 </script>
 </body>
