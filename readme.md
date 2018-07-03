@@ -2,9 +2,9 @@
 
 ## ES6 Classes and Classic Prototypal inheritance
 
-Refer to the contents of `other/_classes` for this part of the exercise.
+Note: refer to the contents of `other/classes` for this part of the exercise.
 
-Open `index.html` in Chrome (no server needed).
+Open `classes/index.html` in Chrome (no server needed).
 
 ```html
 <!DOCTYPE html>
