@@ -625,8 +625,6 @@ Add outside the App div to see a common error:
 
 `<p>test</p>`
 
-Note - to use Emmet run - `ctrl-e`
-
 Comments:
 
 `{ /* comment */ }`
@@ -636,7 +634,7 @@ Comments:
 1. [React developer tools for Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en). Adds a tab to dev tools in Chrome (or Firefox).
 1. If you are using Sublime text use Babel - [Package Control: Babel](https://packagecontrol.io/packages/Babel)for syntax highlighting. An Atom react package is also available. Use `JavaScript(Babel)` as your highlighter in Sublime test.
 
-* `app.js`:
+* `App.js`:
 
 Use a more appropriate image (from the React assets).
 
@@ -649,12 +647,14 @@ Provide the logo.
 App.css:
 
 ```css
+
 .App-header {
   background-color: #eee;
   height: 150px;
   padding: 20px;
   color: #333;
 }
+
 ```
 
 ### Components
@@ -666,6 +666,7 @@ Create a component.
 * Pirate.js
 
 ```js
+
 import React, { Component } from 'react';
 
 class Pirate extends React.Component {
@@ -677,27 +678,34 @@ class Pirate extends React.Component {
 }
 
 export default Pirate;
+
 ```
 
 * App.js:
 
 ```js
+
 import Pirate from './Pirate';
+
 ```
 
-Load the new component in `App.js`:
+Use the new component in `App.js`:
 
 ```js
+
 <Pirate tagline="Ahoy there Matey!" />
+
 ```
 
 * `Pirate.js`:
 
 ```html
+
 <div>
   <p>Pirate Component</p>
   <p>{this.props.tagline}</p>
 </div>
+
 ```
 
 Inspect using React tool. Find the Pirate component and notice the `props` entry.
@@ -717,6 +725,7 @@ Try on *Instagram* or Facebook - two sites that use React. Find a component that
 Exercise - create another component - `Header.js`:
 
 ```js
+
 import React, { Component } from 'react';
 import logo from './anchor.svg';
 
@@ -731,6 +740,7 @@ class Header extends React.Component {
   }
 
 export default Header;
+
 ```
 
 * `App.js`:
@@ -747,7 +757,8 @@ New component: `PirateForm.js`:
 
 `import samplePirates from './sample-pirates';`
 
-```jsx
+```js
+
 import React, { Component } from 'react';
 import AddPirateForm from './AddPirateForm';
 
@@ -763,19 +774,23 @@ class PirateForm extends React.Component {
 }
 
 export default PirateForm;
+
 ```
 
 App.js
 
 ```js
+
 import PirateForm from './PirateForm';
+
 ```
 
 ## State / Data binding
 
 AddPirateForm.js
 
-```jsx
+```js
+
 import React, { Component } from 'react';
 
 class AddPirateForm extends React.Component {
@@ -792,6 +807,7 @@ class AddPirateForm extends React.Component {
 }
 
 export default AddPirateForm;
+
 ```
 
 Method - createPirate
@@ -799,6 +815,7 @@ Method - createPirate
 `<form onSubmit={(e) => this.createPirate(e)}>`:
 
 ```js
+
     return (
       <form onSubmit={(e) => this.createPirate(e)}>
       <input type="text" placeholder="Pirate name" />
@@ -807,15 +824,18 @@ Method - createPirate
       <button type="submit">Add Pirate</button>
       </form>
       )
+
 ```
 
 In AddPirateForm (above render:
 
 ```js
+
 createPirate(event) {
   event.preventDefault();
   console.log('make a pirate')
 }
+
 ```
 
 Test.
@@ -823,12 +843,14 @@ Test.
 Add refs to the form to store references to the input:
 
 ```html
+
 <form onSubmit={(e) => this.createPirate(e)}>
 <input ref={(input) => this.name = input } type="text" placeholder="Pirate name" />
 <input ref={(input) => this.vessel = input } type="text" placeholder="Pirate vessel" />
 <input ref={(input) => this.weapon = input } type="text" placeholder="Pirate weapon" />
 <button type="submit">Add Pirate</button>
 </form>
+
 ```
 
 Go to React dev tools, find AddPirateForm component, $r in the console to see the inputs.
@@ -838,6 +860,7 @@ Create the pirate const variable
 AddPirateForm:
 
 ```js
+
   createPirate(event) {
     event.preventDefault();
     console.log('make a pirate');
@@ -848,6 +871,7 @@ AddPirateForm:
     }
     console.log(pirate)
   }
+
 ```
 
 Test.
@@ -859,6 +883,7 @@ The key difference between props and state is that state is internal and control
 App.js:
 
 ```js
+
 class App extends Component {
 
   constructor() {
@@ -867,6 +892,7 @@ class App extends Component {
       pirates: {}
     }
   }
+
 ```
 
 React tools, find App, view state.
@@ -874,6 +900,7 @@ React tools, find App, view state.
 App.js:
 
 ```js
+
   addPirate(pirate){
     //update state
     const pirates = {...this.state.pirates}
@@ -883,6 +910,7 @@ App.js:
     //set state
     this.setState({ pirates: pirates })
   }
+
 ```
 
 Bind the add form to our app.
@@ -890,6 +918,7 @@ Bind the add form to our app.
 App.js:
 
 ```js
+
   constructor() {
     super();
     this.addPirate = this.addPirate.bind(this);
@@ -897,11 +926,13 @@ App.js:
       pirates: {}
     }
   }
+
 ```
 
 note - bind() - creates a new function that, when called, has its `this` keyword set to the provided value.
 
 ```js
+
 var foo = {
     x: 3
 }
@@ -915,6 +946,7 @@ bar(); // undefined
 var boundFunc = bar.bind(foo);
 
 boundFunc(); // 3
+
 ```
 
 Test with:
@@ -928,6 +960,7 @@ Pass the prop down to PirateForm:
 `<PirateForm addPirate={this.addPirate} />`:
 
 ```js
+
 return (
       <div className="App">
         <div className="App-header">
@@ -940,6 +973,7 @@ return (
         <PirateForm addPirate={this.addPirate} />
       </div>
     );
+
 ```
 
 Examine PirateForm props
@@ -951,6 +985,7 @@ PirateForm:
 `<AddPirateForm addPirate={this.props.addPirate} />`:
 
 ```js
+
   render(){
     return (
       <div>
@@ -959,6 +994,7 @@ PirateForm:
       </div>
       )
   }
+
 ```
 
 Examine AddPirateForm props
@@ -968,9 +1004,10 @@ AddPirateForm:
 `this.props.addPirate(pirate);`
 
 ```js
+
   createPirate(event) {
     event.preventDefault();
-    console.log('make a pirate');
+    console.log('making a pirate');
     const pirate = {
       name: this.name.value,
       vessel: this.vessel.value,
@@ -978,9 +1015,8 @@ AddPirateForm:
     }
     this.props.addPirate(pirate);
   }
-```
 
-## STOP HERE - move to session-10 for better notes
+```
 
 ### Use the form to add a pirate
 
@@ -989,6 +1025,7 @@ Empty the form with a ref.
 `<form ref={(input)=>this.pirateForm = input } onSubmit={(e) => this.createPirate(e)}>`:
 
 ```js
+
     return (
       <form ref={(input)=>this.pirateForm = input } onSubmit={(e) => this.createPirate(e)}>
       <input ref={(input) => this.name = input } type="text" placeholder="Pirate name" />
@@ -997,14 +1034,16 @@ Empty the form with a ref.
       <button type="submit">Add Pirate</button>
       </form>
       )
+
 ```
 
 and `this.pirateForm.reset();`:
 
 ```js
+
 createPirate(event) {
     event.preventDefault();
-    console.log('make a pirate');
+    console.log('making a pirate');
     const pirate = {
       name: this.name.value,
       vessel: this.vessel.value,
@@ -1013,6 +1052,7 @@ createPirate(event) {
     this.props.addPirate(pirate);
     this.pirateForm.reset();
   }
+
 ```
 
 ### Load sample data into state
@@ -1022,13 +1062,15 @@ PirateForm:
 `<button onClick={this.loadSamples}>Load Sample Pirates</button>`:
 
 ```js
+
     return (
       <div>
-      <h3>Pirate Forms</h3>
+      <h3>Pirate Form</h3>
       <AddPirateForm addPirate={this.props.addPirate} />
       <button onClick={this.props.loadSamples}>Load Sample Pirates</button>
       </div>
       )
+
 ```
 
 App.js
@@ -1036,14 +1078,17 @@ App.js
 `import samplePirates from './sample-pirates'`
 
 ```js
+
   loadSamples(){
     this.setState({
       pirates: samplePirates
     })
   }
+
 ```
 
 ```js
+
   constructor() {
     super();
     this.addPirate = this.addPirate.bind(this);
@@ -1052,11 +1097,13 @@ App.js
       pirates: {}
     }
   }
+
 ```
 
 `<PirateForm addPirate={this.addPirate} loadSamples={this.loadSamples} />`:
 
 ```js
+
 return (
   <div className="App">
     <div className="App-header">
@@ -1069,6 +1116,7 @@ return (
     <PirateForm addPirate={this.addPirate} loadSamples={this.loadSamples} />
   </div>
 );
+
 ```
 
 Loading the pirates
@@ -1076,14 +1124,17 @@ Loading the pirates
 App.js:
 
 ```html
+
 <ul>
   <Pirate />
 </ul>
+
 ```
 
 Pirate.js:
 
 ```js
+
 import React, { Component } from 'react';
 
 class Pirate extends React.Component {
@@ -1098,6 +1149,7 @@ class Pirate extends React.Component {
 }
 
 export default Pirate;
+
 ```
 
 Unlike Angular there are no built in loops, repeats etc. You must use regular JS.
@@ -1117,21 +1169,26 @@ App.js:
 `{Object.keys(this.state.pirates)}`
 
 ```js
-return (
-  <div className="App">
-    <div className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <h2>Pirate List</h2>
-    </div>
-    <ul>
-    {Object.keys(this.state.pirates)}
-    </ul>
-    <PirateForm addPirate={this.addPirate} loadSamples={this.loadSamples} />
-  </div>
-);
+
+  render() {
+    return (
+      <div className="App">
+      <Header />
+
+      <ul>
+      {Object.keys(this.state.pirates)}
+      </ul>
+
+      <PirateForm addPirate={this.addPirate} loadSamples={this.loadSamples} />
+      </div>
+
+    );
+  }
+
 ```
 
 ```js
+
 <ul>
 {
   Object
@@ -1139,11 +1196,13 @@ return (
   .map( key => <Pirate key={key} details={this.state.pirates[key]} /> )
 }
 </ul>
+
 ```
 
-Pirate.js:
+`Pirate.js`:
 
 ```js
+
   render(){
     const {details} = this.props;
     return (
@@ -1154,6 +1213,7 @@ Pirate.js:
       </li>
       )
   }
+
 ```
 
 Load sample pirates.
