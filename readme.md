@@ -6,15 +6,9 @@ Note: refer to the contents of `other/classes` for this part of the exercise.
 
 Open `classes/index.html` in Chrome (no server needed).
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Prototypal Inheritance</title>
-</head>
-<body>
-<script>
+In `scripts.js`:
+
+```js
 
   function Car(model, make) {
     this.model = model;
@@ -24,9 +18,7 @@ Open `classes/index.html` in Chrome (no server needed).
   const expo = new Car('Expo', 'Ford');
 
   console.log(expo);
-</script>
-</body>
-</html>
+
 ```
 
 The _constructor_ function:
@@ -42,13 +34,9 @@ enables creating a new car object with properties:
 
 `const expo = new Car('Expo', 'Ford');`
 
-In the browser console:
-
-```sh
-> expo
-```
-
 ### Prototypal inheritance
+
+An important, native to JavaScript since day one (-ish), feature.
 
 #### Example: Array Methods
 
@@ -58,9 +46,8 @@ Create an array in the console:
 
 ```js
 > const names = ['John', 'Henry']
+> names
 ```
-
-Examine the Array in the console with `> names`.
 
 Note the Array prototypes, e.g.:
 
@@ -71,7 +58,7 @@ Note the Array prototypes, e.g.:
 > names.pop() // remove and return the last element
 ```
 
-Add a prototype and new car to our car object:
+Adding a prototype to our car constructor:
 
 ```js
 function Car(model, make) {
@@ -79,7 +66,7 @@ function Car(model, make) {
   this.make = make;
 
   Car.prototype.drive = function() {
-    console.log(`Vroom vroom! I'm a ${this.model}`);
+    console.log(`Vroom vroom 🚓 ! I'm a ${this.model}`);
   }
 }
 const expo = new Car('Expo', 'Ford');
@@ -138,7 +125,7 @@ In the console:
 > expo.stop()
 ```
 
-Aside: Static Methods
+### Static Methods
 
 Static Methods apply to the class, not the objects.
 
@@ -156,7 +143,7 @@ static info() {
 
 Inspect the expo prototype. The static method is _not_ inherited.
 
-### Demo: Static methods on an Array
+### Demo: A Static Method on an Array
 
 `Array.of` and the spread operator.
 
@@ -164,7 +151,7 @@ In `index.html`:
 
 `ul>li*4>a[href="#"]{link}`
 
-Then use `ctrl-e`. See [Emmet in VSCode](https://code.visualstudio.com/docs/editor/emmet)
+See [Emmet in VSCode](https://code.visualstudio.com/docs/editor/emmet)
 
 ```js
 > Array.of(1,2,3,4)
@@ -172,6 +159,7 @@ Then use `ctrl-e`. See [Emmet in VSCode](https://code.visualstudio.com/docs/edit
 > links
 > Array.of(links)
 > Array.of(...links)
+> links.join(' ')
 ```
 
 But `.of` is not ihnerited:
@@ -223,7 +211,7 @@ constructor(model, make, nick) {
 
 and pass `const expo = new Car('Expo', 'Ford', 'grumbler');`
 
-But that's not what setters are for.
+But that's not what setters are for. Setters are most often used in conjunction with getters to create a type of pseudo-property. It is not possible to simultaneously have a setter on a property that holds an actual value.
 
 Let's leave the constructor as is and create a getter:
 
@@ -339,17 +327,13 @@ class Dog extends Animal {
   }
 }
 
-```
-
-```js
-
 const yorik = new Dog('Yorik', 'Mutt');
 
 ```
 
 Note the error on the console.
 
-Super calls the thing (Animal) that you are extending first.
+Super calls the thing (`Animal`) that you are extending first.
 
 We need to call `super` first and here, super needs a name:
 
@@ -488,7 +472,9 @@ We have an Array that also has properties (possible because in JS, Arrays are ob
 
 ```js
 
-typeof [1,2]
+> let ar = [1,2]
+> ar
+> typeof ar
 
 ```
 
@@ -522,9 +508,9 @@ More useful will be `for... of` which returns *only* the array:
 
 ```
 
-We get the object (not the key) and the property (name) is not shown. The `for...of` statement creates a loop iterating over *iterable* objects
+We get the object (not the key) and the property (name) is not shown. The `for...of` statement creates a loop iterating over *iterable* objects while `for...in` iterates over the *enumerable* properties of an object.
 
-N.B. for of loops skip over the properties.
+Also note: `for of` loops skip over the properties (`name` here) because they are not iterable.
 
 topRated:
 
@@ -544,7 +530,7 @@ topRated:
 
 ```js
 
-> movies.topRated()
+> console.table(movies.topRated())
 
 ```
 
@@ -555,12 +541,6 @@ Refactored with a [ternary operator](https://www.w3schools.com/js/js_comparisons
 topRated(limit = 10) {
   return this.sort((a, b) => (a.stars > b.stars ? -1 : 1)).slice(0, limit);
 }
-
-```
-
-```js
-
-> console.table(movies.topRated())
 
 ```
 
@@ -579,3 +559,601 @@ Aside: we will be using this in a future exercise
 Object.keys(movies)
 
 ```
+
+## ES6 Classes and Modules
+
+Demo `other/sample`
+
+
+## React Classes
+
+`cd` to the top level of today's project folder.
+
+```sh
+
+sudo npm install -g create-react-app
+
+```
+
+```sh
+
+> create-react-app react-pirates
+
+```
+
+```sh
+
+cd react-pirates
+
+```
+
+Examine `package.json`
+
+```sh
+
+npm run start
+
+```
+
+_Danger_ - do not do this - demo only!
+
+```sh
+
+> git branch ejected
+> git checkout ejected
+> npm run eject
+
+```
+
+Examine `package.json`
+
+### App.js
+
+What appears to be HTML is JSX.
+
+JSX is a templating language that looks similar to HTML but is XML. You can embed any javascript inside of a JSX template by wrapping it in curly braces ({}). Some words are special and reserved, such as `class`, so there are JSX-specific properties/attributes/etc you need to use (such as `className`).
+
+In addition, React components must only return a _single JSX node_ at its root, so it’s very common to wrap  your components in a div.
+
+1. logo: {logo}: JSX
+1. App.css: injected via Webpack:`<style>`
+1. class → className: JSX
+1. xhtml style closing tags: JSX
+1. style="color: purple" → style={{color: 'purple'}}: JSX
+
+Add outside the App div to see a common error:
+
+`<p>test</p>`
+
+Note - to use Emmet run - `ctrl-e`
+
+Comments:
+
+`{ /* comment */ }`
+
+## Additional Installs
+
+1. [React developer tools for Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en). Adds a tab to dev tools in Chrome (or Firefox).
+1. If you are using Sublime text use Babel - [Package Control: Babel](https://packagecontrol.io/packages/Babel)for syntax highlighting. An Atom react package is also available. Use `JavaScript(Babel)` as your highlighter in Sublime test.
+
+* `app.js`:
+
+Use a more appropriate image (from the React assets).
+
+`import logo from './anchor.svg';`
+
+Provide the logo.
+
+`<h2>Pirate List</h2>`
+
+App.css:
+
+```css
+.App-header {
+  background-color: #eee;
+  height: 150px;
+  padding: 20px;
+  color: #333;
+}
+```
+
+### Components
+
+Every component must have a render method.
+
+Create a component.
+
+* Pirate.js
+
+```js
+import React, { Component } from 'react';
+
+class Pirate extends React.Component {
+  render(){
+    return (
+      <p>Pirate Component</p>
+      )
+  }
+}
+
+export default Pirate;
+```
+
+* App.js:
+
+```js
+import Pirate from './Pirate';
+```
+
+Load the new component in `App.js`:
+
+```js
+<Pirate tagline="Ahoy there Matey!" />
+```
+
+* `Pirate.js`:
+
+```html
+<div>
+  <p>Pirate Component</p>
+  <p>{this.props.tagline}</p>
+</div>
+```
+
+Inspect using React tool. Find the Pirate component and notice the `props` entry.
+
+#### React dev tools
+
+`$0` - selects the element - a standard feature in the console
+
+`$r` - is the react equivalent
+
+Select `<Pirate />`
+
+`$r.props`
+
+Try on *Instagram* or Facebook - two sites that use React. Find a component that has Object as its prototype.
+
+Exercise - create another component - `Header.js`:
+
+```js
+import React, { Component } from 'react';
+import logo from './anchor.svg';
+
+class Header extends React.Component {
+  render(){
+    return (
+      <div className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <h2>Pirate List</h2>
+      </div>)
+    }
+  }
+
+export default Header;
+```
+
+* `App.js`:
+
+`import Header from './Header';`
+
+`<Header />`
+
+Breaking out chunks of code into additional components is a very common practice.
+
+## Adding Pirates
+
+New component: `PirateForm.js`:
+
+`import samplePirates from './sample-pirates';`
+
+```jsx
+import React, { Component } from 'react';
+import AddPirateForm from './AddPirateForm';
+
+class PirateForm extends React.Component {
+  render(){
+    return (
+      <div>
+      <h3>Pirate Forms</h3>
+      <AddPirateForm />
+      </div>
+      )
+  }
+}
+
+export default PirateForm;
+```
+
+App.js
+
+```js
+import PirateForm from './PirateForm';
+```
+
+## State / Data binding
+
+AddPirateForm.js
+
+```jsx
+import React, { Component } from 'react';
+
+class AddPirateForm extends React.Component {
+  render(){
+    return (
+      <form>
+      <input type="text" placeholder="Pirate name" />
+      <input type="text" placeholder="Pirate vessel" />
+      <input type="text" placeholder="Pirate weapon" />
+      <button type="submit">Add Pirate</button>
+      </form>
+      )
+  }
+}
+
+export default AddPirateForm;
+```
+
+Method - createPirate
+
+`<form onSubmit={(e) => this.createPirate(e)}>`:
+
+```js
+    return (
+      <form onSubmit={(e) => this.createPirate(e)}>
+      <input type="text" placeholder="Pirate name" />
+      <input type="text" placeholder="Pirate vessel" />
+      <input type="text" placeholder="Pirate weapon" />
+      <button type="submit">Add Pirate</button>
+      </form>
+      )
+```
+
+In AddPirateForm (above render:
+
+```js
+createPirate(event) {
+  event.preventDefault();
+  console.log('make a pirate')
+}
+```
+
+Test.
+
+Add refs to the form to store references to the input:
+
+```html
+<form onSubmit={(e) => this.createPirate(e)}>
+<input ref={(input) => this.name = input } type="text" placeholder="Pirate name" />
+<input ref={(input) => this.vessel = input } type="text" placeholder="Pirate vessel" />
+<input ref={(input) => this.weapon = input } type="text" placeholder="Pirate weapon" />
+<button type="submit">Add Pirate</button>
+</form>
+```
+
+Go to React dev tools, find AddPirateForm component, $r in the console to see the inputs.
+
+Create the pirate const variable
+
+AddPirateForm:
+
+```js
+  createPirate(event) {
+    event.preventDefault();
+    console.log('make a pirate');
+    const pirate = {
+      name: this.name.value,
+      vessel: this.vessel.value,
+      weapon: this.weapon.value,
+    }
+    console.log(pirate)
+  }
+```
+
+Test.
+
+Get the pirate object into state.
+
+The key difference between props and state is that state is internal and controlled by the component itself while props are external and controlled by whatever renders the component. - [ref](http://buildwithreact.com/tutorial/state)
+
+App.js:
+
+```js
+class App extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      pirates: {}
+    }
+  }
+```
+
+React tools, find App, view state.
+
+App.js:
+
+```js
+  addPirate(pirate){
+    //update state
+    const pirates = {...this.state.pirates}
+    //add new pirate
+    const timestamp = Date.now();
+    pirates[`pirate-${timestamp}`] = pirate;
+    //set state
+    this.setState({ pirates: pirates })
+  }
+```
+
+Bind the add form to our app.
+
+App.js:
+
+```js
+  constructor() {
+    super();
+    this.addPirate = this.addPirate.bind(this);
+    this.state = {
+      pirates: {}
+    }
+  }
+```
+
+note - bind() - creates a new function that, when called, has its `this` keyword set to the provided value.
+
+```js
+var foo = {
+    x: 3
+}
+
+var bar = function(){
+    console.log(this.x);
+}
+
+bar(); // undefined
+
+var boundFunc = bar.bind(foo);
+
+boundFunc(); // 3
+```
+
+Test with:
+
+`$r.addPirate({name: 'joe'})`
+
+Make the addPirate function available to components with props.
+
+Pass the prop down to PirateForm:
+
+`<PirateForm addPirate={this.addPirate} />`:
+
+```js
+return (
+      <div className="App">
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>Pirate List</h2>
+        </div>
+        <ul>
+          <Pirate />
+        </ul>
+        <PirateForm addPirate={this.addPirate} />
+      </div>
+    );
+```
+
+Examine PirateForm props
+
+Only one level more! Pass the prop to AddPirateForm.
+
+PirateForm:
+
+`<AddPirateForm addPirate={this.props.addPirate} />`:
+
+```js
+  render(){
+    return (
+      <div>
+      <h3>Pirate Forms</h3>
+      <AddPirateForm addPirate={this.props.addPirate} />
+      </div>
+      )
+  }
+```
+
+Examine AddPirateForm props
+
+AddPirateForm:
+
+`this.props.addPirate(pirate);`
+
+```js
+  createPirate(event) {
+    event.preventDefault();
+    console.log('make a pirate');
+    const pirate = {
+      name: this.name.value,
+      vessel: this.vessel.value,
+      weapon: this.weapon.value,
+    }
+    this.props.addPirate(pirate);
+  }
+```
+
+## STOP HERE - move to session-10 for better notes
+
+### Use the form to add a pirate
+
+Empty the form with a ref.
+
+`<form ref={(input)=>this.pirateForm = input } onSubmit={(e) => this.createPirate(e)}>`:
+
+```js
+    return (
+      <form ref={(input)=>this.pirateForm = input } onSubmit={(e) => this.createPirate(e)}>
+      <input ref={(input) => this.name = input } type="text" placeholder="Pirate name" />
+      <input ref={(input) => this.vessel = input } type="text" placeholder="Pirate vessel" />
+      <input ref={(input) => this.weapon = input } type="text" placeholder="Pirate weapon" />
+      <button type="submit">Add Pirate</button>
+      </form>
+      )
+```
+
+and `this.pirateForm.reset();`:
+
+```js
+createPirate(event) {
+    event.preventDefault();
+    console.log('make a pirate');
+    const pirate = {
+      name: this.name.value,
+      vessel: this.vessel.value,
+      weapon: this.weapon.value,
+    }
+    this.props.addPirate(pirate);
+    this.pirateForm.reset();
+  }
+```
+
+### Load sample data into state
+
+PirateForm:
+
+`<button onClick={this.loadSamples}>Load Sample Pirates</button>`:
+
+```js
+    return (
+      <div>
+      <h3>Pirate Forms</h3>
+      <AddPirateForm addPirate={this.props.addPirate} />
+      <button onClick={this.props.loadSamples}>Load Sample Pirates</button>
+      </div>
+      )
+```
+
+App.js
+
+`import samplePirates from './sample-pirates'`
+
+```js
+  loadSamples(){
+    this.setState({
+      pirates: samplePirates
+    })
+  }
+```
+
+```js
+  constructor() {
+    super();
+    this.addPirate = this.addPirate.bind(this);
+    this.loadSamples = this.loadSamples.bind(this);
+    this.state = {
+      pirates: {}
+    }
+  }
+```
+
+`<PirateForm addPirate={this.addPirate} loadSamples={this.loadSamples} />`:
+
+```js
+return (
+  <div className="App">
+    <div className="App-header">
+      <img src={logo} className="App-logo" alt="logo" />
+      <h2>Pirate List</h2>
+    </div>
+    <ul>
+      <Pirate />
+    </ul>
+    <PirateForm addPirate={this.addPirate} loadSamples={this.loadSamples} />
+  </div>
+);
+```
+
+Loading the pirates
+
+App.js:
+
+```html
+<ul>
+  <Pirate />
+</ul>
+```
+
+Pirate.js:
+
+```js
+import React, { Component } from 'react';
+
+class Pirate extends React.Component {
+
+  render(){
+    return (
+      <li>
+        <p>Pirate</p>
+      </li>
+      )
+  }
+}
+
+export default Pirate;
+```
+
+Unlike Angular there are no built in loops, repeats etc. You must use regular JS.
+
+Here - cannot use .map which is for Arrays.
+
+Use `Object.keys()`
+
+Find App component in React tool. In console: `$r.state.pirates`
+
+Load samples and run again to see data. Can't loop over that!
+
+`Object.keys($r.state.pirates)`
+
+App.js:
+
+`{Object.keys(this.state.pirates)}`
+
+```js
+return (
+  <div className="App">
+    <div className="App-header">
+      <img src={logo} className="App-logo" alt="logo" />
+      <h2>Pirate List</h2>
+    </div>
+    <ul>
+    {Object.keys(this.state.pirates)}
+    </ul>
+    <PirateForm addPirate={this.addPirate} loadSamples={this.loadSamples} />
+  </div>
+);
+```
+
+```js
+<ul>
+{
+  Object
+  .keys(this.state.pirates)
+  .map( key => <Pirate key={key} details={this.state.pirates[key]} /> )
+}
+</ul>
+```
+
+Pirate.js:
+
+```js
+  render(){
+    const {details} = this.props;
+    return (
+      <li>
+        <h4>{details.name}</h4>
+        <p>{details.weapon}</p>
+        <p>{details.vessel}</p>
+      </li>
+      )
+  }
+```
+
+Load sample pirates.
